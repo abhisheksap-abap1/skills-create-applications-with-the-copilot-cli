@@ -70,9 +70,46 @@ function divide(a, b) {
 }
 
 /**
+ * Modulo operation
+ * @param {number} a - Dividend
+ * @param {number} b - Divisor
+ * @returns {number} Remainder of a divided by b
+ * @throws {Error} If divisor is zero
+ */
+function modulo(a, b) {
+  if (b === 0) {
+    throw new Error('Modulo by zero is not allowed');
+  }
+  return a % b;
+}
+
+/**
+ * Power/Exponentiation operation
+ * @param {number} base - Base number
+ * @param {number} exponent - Exponent
+ * @returns {number} Base raised to the exponent
+ */
+function power(base, exponent) {
+  return Math.pow(base, exponent);
+}
+
+/**
+ * Square root operation
+ * @param {number} n - Number to find the square root of
+ * @returns {number} Square root of n
+ * @throws {Error} If n is negative
+ */
+function squareRoot(n) {
+  if (n < 0) {
+    throw new Error('Square root of negative numbers is not allowed');
+  }
+  return Math.sqrt(n);
+}
+
+/**
  * Calculate based on operator and two numbers
  * @param {number} firstNumber - First operand
- * @param {string} operator - Operation to perform (+, -, *, /)
+ * @param {string} operator - Operation to perform (+, -, *, /, %, **)
  * @param {number} secondNumber - Second operand
  * @returns {number} Result of the calculation
  */
@@ -86,6 +123,10 @@ function calculate(firstNumber, operator, secondNumber) {
       return multiply(firstNumber, secondNumber);
     case '/':
       return divide(firstNumber, secondNumber);
+    case '%':
+      return modulo(firstNumber, secondNumber);
+    case '**':
+      return power(firstNumber, secondNumber);
     default:
       throw new Error(`Unknown operator: ${operator}`);
   }
@@ -98,11 +139,14 @@ function displayWelcome() {
   console.log('\n╔════════════════════════════════════════╗');
   console.log('║     Node.js CLI Calculator App         ║');
   console.log('╚════════════════════════════════════════╝\n');
-  console.log('Supported Operations:');
+  console.log('Basic Operations:');
   console.log('  + : Addition');
   console.log('  - : Subtraction');
   console.log('  * : Multiplication');
   console.log('  / : Division\n');
+  console.log('Advanced Operations:');
+  console.log('  % : Modulo (remainder)');
+  console.log('  ** : Exponentiation (power)\n');
 }
 
 /**
@@ -127,9 +171,9 @@ function startCalculator() {
   };
 
   const askOperator = (firstNumber) => {
-    rl.question('Enter operator (+, -, *, /): ', (op) => {
-      if (!['+', '-', '*', '/'].includes(op)) {
-        console.log('Invalid operator. Please use +, -, *, or /\n');
+    rl.question('Enter operator (+, -, *, /, %, **): ', (op) => {
+      if (!['+', '-', '*', '/', '%', '**'].includes(op)) {
+        console.log('Invalid operator. Please use +, -, *, /, %, or **\n');
         askOperator(firstNumber);
         return;
       }
@@ -180,6 +224,9 @@ module.exports = {
   subtract,
   multiply,
   divide,
+  modulo,
+  power,
+  squareRoot,
   calculate
 };
 
